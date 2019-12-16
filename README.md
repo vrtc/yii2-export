@@ -1,6 +1,6 @@
 Vrtc - Export to file
 ================================
-[![Latest Stable Version](https://poser.pugx.org/phpnt/yii2-export/v/stable)](https://packagist.org/packages/phpnt/yii2-export) [![Total Downloads](https://poser.pugx.org/phpnt/yii2-export/downloads)](https://packagist.org/packages/phpnt/yii2-export) [![Latest Unstable Version](https://poser.pugx.org/phpnt/yii2-export/v/unstable)](https://packagist.org/packages/phpnt/yii2-export) [![License](https://poser.pugx.org/phpnt/yii2-export/license)](https://packagist.org/packages/phpnt/yii2-export)
+
 ### Описание:
 #### Сохраняет данные в xls, csv, word, html, pdf файлы. Если, в представлении, модель Search использовалась вместе с DataProvider для вывода GridView и применялся фильтр, то к сохраняемым данным будет также применен этот фильтр.
 #### Для CSV файлов предусмотрен выбор кодировок 'UTF-8' (по умолчанию) и 'Windows-1251'.
@@ -14,18 +14,18 @@ Vrtc - Export to file
 ------------
 
 ```
-php composer.phar require "phpnt/yii2-export" "*"
+php composer.phar require "vrtc/yii2-export" "*"
 ```
 или
 
 ```
-composer require phpnt/yii2-export
+composer require vrtc/yii2-export
 ```
 
 или добавить в composer.json файл
 
 ```
-"phpnt/yii2-export": "*"
+"vrtc/yii2-export": "*"
 ```
 ## Использование:
 ### Подключение:
@@ -34,7 +34,7 @@ composer require phpnt/yii2-export
 // в файле настройки приложения (main.php - Advanced или web.php - Basic) добавляется класс в controllerMap
 ...
 'controllerMap' => [
-    'export' => 'phpnt\exportFile\controllers\ExportController'
+    'export' => 'vrtc\exportFile\controllers\ExportController'
 ],
 'components' => [
     ...
@@ -91,7 +91,7 @@ class GeoCitySearch extends GeoCity
 ### Представление 1:
 ------------
 ```php
-use phpnt\exportFile\ExportFile;
+use vrtc\exportFile\ExportFile;
 use yii\grid\GridView;
 /* @var $searchModel \common\models\GeoCitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -113,7 +113,7 @@ echo ExportFile::widget([
 ### Представление 2:
 ------------
 ```php
-use phpnt\exportFile\ExportFile;
+use vrtc\exportFile\ExportFile;
 use yii\grid\GridView;
 /* @var $searchModel \common\models\GeoCitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -160,7 +160,7 @@ echo ExportFile::widget([
 ## [dompdf](https://github.com/dompdf/dompdf)
 ------------
 ### Версия:
-### 0.0.2
+### 1.0
 ------------
 ### Лицензия:
 ### [MIT](https://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F_MIT)
