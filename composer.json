@@ -4,7 +4,7 @@
     "keywords": ["yii2", "export", "xls", "excel", "csv", "word", "html", "pdf", "widget", "extension", "phpexcel", "phpword", "dompdf"],
     "type": "yii2-extension",
     "license": "MIT",
-    "minimum-stability" : "master",
+    "minimum-stability" : "dev",
     "prefer-stable": true,
     "support": {
         "source": "https://github.com/vrtc/yii2-export"

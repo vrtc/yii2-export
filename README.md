@@ -5,16 +5,7 @@ phpNT - Export to file
 #### Сохраняет данные в xls, csv, word, html, pdf файлы. Если, в представлении, модель Search использовалась вместе с DataProvider для вывода GridView и применялся фильтр, то к сохраняемым данным будет также применен этот фильтр.
 #### Для CSV файлов предусмотрен выбор кодировок 'UTF-8' (по умолчанию) и 'Windows-1251'.
 #### Инструкция для русификации PDF файлов находится в файле README, в папке /dompdf_ru.
-### [DEMO](http://phpnt.com/widget/export-file)
 
-------------
-[![Donate button](https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif)](http://phpnt.com/donate/index)
-------------
-
-### Социальные сети:
- - [Канал YouTube](https://www.youtube.com/c/phpnt)
- - [Группа VK](https://vk.com/phpnt)
- - [Группа facebook](https://www.facebook.com/Phpnt-595851240515413/)
 
 ------------
 
