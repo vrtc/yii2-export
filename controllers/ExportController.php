@@ -9,7 +9,6 @@
 
 namespace vrtc\exportFile\controllers;
 
-use common\models\search\UserSearch;
 use Yii;
 use Dompdf\Dompdf;
 use Dompdf\Options;
