@@ -1,5 +1,5 @@
 {
-    "name": "phpnt/yii2-export",
+    "name": "vrtc/yii2-export",
     "description": "Yii2 It saves data in xls, csv, word, html, pdf files.",
     "keywords": ["yii2", "export", "xls", "excel", "csv", "word", "html", "pdf", "widget", "extension", "phpexcel", "phpword", "dompdf"],
     "type": "yii2-extension",
