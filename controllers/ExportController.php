@@ -14,6 +14,8 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use yii\helpers\Json;
 use yii\web\Controller;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExportController extends Controller
 {
@@ -23,36 +25,29 @@ class ExportController extends Controller
         $searchModel    = $data['searchModel'];
         $dataProvider   = $data['dataProvider'];
         $title          = $data['title'];
-        $tableName      = $data['tableName'];
+        $tableName      = $searchModel->getTableSchema()->fullName;
         $fields         = $this->getFieldsKeys($searchModel->exportFields());
 
-        $objPHPExcel = new \PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        $objPHPExcel->getActiveSheet()->setTitle($title ? $title : $tableName);
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setTitle($title ? $title : $tableName);
+
         $letter = 65;
         foreach ($fields as $one) {
-            $objPHPExcel->getActiveSheet()->getColumnDimension(chr($letter))->setAutoSize(true);
+            $sheet->setCellValue(chr($letter).'1', $searchModel->getAttributeLabel($one));
             $letter++;
         }
-        $letter = 65;
-        foreach ($fields as $one) {
-            $objPHPExcel->getActiveSheet()->setCellValue(chr($letter).'1', $searchModel->getAttributeLabel($one));
-            $objPHPExcel->getActiveSheet()->getStyle(chr($letter).'1')->getAlignment()->setHorizontal(
-                \PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $letter++;
-        }
+
         $row = 2;
         $letter = 65;
+
         foreach ($dataProvider->getModels() as $model) {
             foreach ($searchModel->exportFields() as $one) {
                 if (is_string($one)) {
-                    $objPHPExcel->getActiveSheet()->setCellValue(chr($letter).$row,$model[$one]);
-                    $objPHPExcel->getActiveSheet()->getStyle(chr($letter).$row)->getAlignment()->setHorizontal(
-                        \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                    $sheet->setCellValue(chr($letter).$row,$model[$one]);
                 } else {
-                    $objPHPExcel->getActiveSheet()->setCellValue(chr($letter).$row,$one($model));
-                    $objPHPExcel->getActiveSheet()->getStyle(chr($letter).$row)->getAlignment()->setHorizontal(
-                        \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                    $sheet->setCellValue(chr($letter).$row,$one($model));
                 }
                 $letter++;
             }
@@ -60,12 +55,22 @@ class ExportController extends Controller
             $row++ ;
         }
 
+        $letter = 65;
+        foreach($fields as $columnID) {
+            $sheet->getColumnDimension(chr($letter))
+                ->setAutoSize(true);
+            $letter++;
+        }
+
+
         header('Content-Type: application/vnd.ms-excel');
         $filename = $tableName.".xls";
         header('Content-Disposition: attachment;filename='.$filename);
         header('Cache-Control: max-age=0');
-        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
     public function actionCsv()
@@ -73,7 +78,7 @@ class ExportController extends Controller
         $data = $this->getData();
         $searchModel    = $data['searchModel'];
         $dataProvider   = $data['dataProvider'];
-        $tableName      = $data['tableName'];
+        $tableName      = $searchModel->getTableSchema()->fullName;
         $fields         = $this->getFieldsKeys($searchModel->exportFields());
         $csvCharset     = \Yii::$app->request->post('csvCharset');
 
@@ -270,7 +275,7 @@ class ExportController extends Controller
         $searchModel    = $data['searchModel'];
         $dataProvider   = $data['dataProvider'];
         $title          = $data['title'];
-        $tableName      = $data['tableName'];
+        $tableName      = $searchModel->getTableSchema()->fullName;
         $fields         = $this->getFieldsKeys($searchModel->exportFields());
 
         $options = new Options();
