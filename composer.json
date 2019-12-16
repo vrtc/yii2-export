@@ -26,7 +26,7 @@
         "yiisoft/yii2": "*",
         "phpoffice/phpspreadsheet": "*",
         "phpoffice/phpword": "*",
-        "dompdf/dompdf": "*"
+        "mpdf/mpdf": "*"
     },
     "autoload": {
         "psr-4": {
