@@ -277,16 +277,17 @@ class ExportController extends Controller
         $title          = $data['title'];
         $tableName      = $searchModel->getTableSchema()->fullName;
         $fields         = $this->getFieldsKeys($searchModel->exportFields());
-
+        ini_set("allow_url_fopen", true);
         $options = new Options();
-        $options->set('defaultFont', 'times');
+        $options->set('defaultFont', 'dejavu sans');
+        $options->set('isRemoteEnabled', true);
         $dompdf = new Dompdf($options);
-        $html = '<html><body>';
+        $html = '<html><head><style>body { font-family: DejaVu Sans }</style></head><body>';
         $html .= '<h1>'.$title ? $title : $tableName.'</h1>';
         $html .= '<table width="100%" cellspacing="0" cellpadding="0">';
         $html .= '<tr style="background-color: #ececec;">';
         foreach ($fields as $one) {
-            $html .= '<td style="border: 2px solid #cccccc; text-align: center; font-weight: 500;">'.$searchModel->getAttributeLabel($one).'</td>';
+            $html .= '<td style="border: 2px solid #cccccc; text-align: center; font-weight: 500; ">'.$searchModel->getAttributeLabel($one).'</td>';
         }
         $html .= '</tr>';
 
@@ -296,7 +297,7 @@ class ExportController extends Controller
                 if (is_string($one)) {
                     $html .= '<td style="border: 1px solid #cccccc; text-align: left; font-weight: 300; padding-left: 10px;">'.$model[$one].'</td>';
                 } else {
-                    $html .= '<td style="border: 1px solid #cccccc; text-align: left; font-weight: 300; padding-left: 10px;">'.$one($model).'</td>';
+                    $html .= '<td style="border: 1px solid #cccccc; text-align: left; font-weight: 300; padding-left: 10px; ">'.$one($model).'</td>';
                 }
             }
             $html .= '</tr>';
@@ -306,7 +307,7 @@ class ExportController extends Controller
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream($tableName.'_'.time());
+      $dompdf->stream($tableName.'_'.time());
     }
 
     private function getData() {
