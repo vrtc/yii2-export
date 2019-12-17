@@ -63,8 +63,8 @@ class ExportController extends Controller
         }
 
 
-        header('Content-Type: application/vnd.ms-excel');
-        $filename = $tableName.".xls";
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $filename = $tableName.".xlsx";
         header('Content-Disposition: attachment;filename='.$filename);
         header('Cache-Control: max-age=0');
 
