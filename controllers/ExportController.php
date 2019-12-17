@@ -138,6 +138,7 @@ class ExportController extends Controller
         $csvCharset     = \Yii::$app->request->post('csvCharset');
         $txtDelimiter = \Yii::$app->request->post('txtDelimiter');
         $txtQuoteItem = \Yii::$app->request->post('txtQuoteItem');
+        $includeFields = \Yii::$app->request->post('includeFields');
         header('Pragma: public');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -148,6 +149,10 @@ class ExportController extends Controller
         header('Content-Transfer-Encoding: binary');
         $fp = fopen('php://output', 'w');
 
+        if($includeFields){
+            $includeFields = explode(',', $includeFields);
+        }
+
         fputs($fp, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 
         if ($fp)
@@ -155,7 +160,10 @@ class ExportController extends Controller
             $items = [];
             $i = 0;
             foreach ($dataProvider->getModels() as $model) {
-                foreach ($searchModel->exportFields() as $one) {
+                foreach ($searchModel->exportFields() as $k => $one) {
+                    if(!in_array((string)$k, $includeFields)){
+                       continue;
+                    }
                     if (is_string($one)) {
                         $item = str_replace('"', '\"', $model[$one]);
                     } else {
@@ -171,7 +179,7 @@ class ExportController extends Controller
                 fputs($fp, implode($items, $txtDelimiter)."\n");
                 $items = [];
                 $i = 0;
-            }
+            }exit;
         }
         fclose($fp);
     }

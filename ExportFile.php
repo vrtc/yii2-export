@@ -53,6 +53,7 @@ class ExportFile extends Widget
         'buttonOption' => [
             'class' => 'btn btn-primary'
         ],
+        'includeFields' => false,
         'tag' => 'div',
         'tagOption' => [
             'class' => 'pull-left',

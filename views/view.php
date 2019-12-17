@@ -44,6 +44,7 @@ use yii\helpers\Html;
     echo Html::hiddenInput('title', $widget->title);
     echo Html::hiddenInput('txtDelimiter', $widget->txt['txtDelimiter']);
     echo Html::hiddenInput('txtQuoteItem', $widget->txt['txtQuoteItem']);
+    echo Html::hiddenInput('includeFields', $widget->txt['includeFields']);
     echo Html::submitButton($widget->txt['buttonName'], $widget->txt['buttonOption']);
     echo Html::endForm();
     ?>
