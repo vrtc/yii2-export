@@ -127,6 +127,55 @@ class ExportController extends Controller
         fclose($fp);
     }
 
+    public function actionTxt()
+    {
+
+        $data = $this->getData();
+        $searchModel    = $data['searchModel'];
+        $dataProvider   = $data['dataProvider'];
+        $tableName      = $searchModel->getTableSchema()->fullName;
+        $fields         = $this->getFieldsKeys($searchModel->exportFields());
+        $csvCharset     = \Yii::$app->request->post('csvCharset');
+        $txtDelimiter = \Yii::$app->request->post('txtDelimiter');
+        $txtQuoteItem = \Yii::$app->request->post('txtQuoteItem');
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Description: File Transfer');
+        header('Content-Type: text/plain');
+        $filename = $tableName.".txt";
+        header('Content-Disposition: attachment;filename='.$filename);
+        header('Content-Transfer-Encoding: binary');
+        $fp = fopen('php://output', 'w');
+
+        fputs($fp, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+
+        if ($fp)
+        {
+            $items = [];
+            $i = 0;
+            foreach ($dataProvider->getModels() as $model) {
+                foreach ($searchModel->exportFields() as $one) {
+                    if (is_string($one)) {
+                        $item = str_replace('"', '\"', $model[$one]);
+                    } else {
+                        $item = str_replace('"', '\"', $one($model));
+                    }
+                    if ($item) {
+                        $items[$i] = $txtQuoteItem . $item . $txtQuoteItem;
+                    } else {
+                        $items[$i] = $item;
+                    }
+                    $i++;
+                }
+                fputs($fp, implode($items, $txtDelimiter)."\n");
+                $items = [];
+                $i = 0;
+            }
+        }
+        fclose($fp);
+    }
+
     public function actionWord()
     {
         $data = $this->getData();
