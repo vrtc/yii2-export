@@ -124,7 +124,7 @@ class ExportController extends Controller
                 $i = 0;
             }
         }
-        fclose($fp);
+        fclose($fp); exit;
     }
 
     public function actionTxt()
@@ -179,9 +179,9 @@ class ExportController extends Controller
                 fputs($fp, implode($items, $txtDelimiter)."\n");
                 $items = [];
                 $i = 0;
-            }exit;
+            }
         }
-        fclose($fp);
+        fclose($fp);exit;
     }
 
     public function actionWord()
